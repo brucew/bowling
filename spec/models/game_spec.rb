@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: games
+#
+#  id         :bigint           not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'rails_helper'
 
 describe Game do
@@ -12,7 +21,7 @@ describe Game do
       end
     end
 
-    context 'with many frames, no strikes or spares' do
+    context 'with 3 frames, no strikes or spares' do
       it 'returns the sum of the frames scores' do
         game = build(:game)
         game.frames << build(:frame, score: 0)
@@ -20,6 +29,18 @@ describe Game do
         game.frames << build(:frame, score: 9)
 
         expect(game.score).to eq 10
+
+      end
+    end
+
+    context 'with 3 frames, all strikes' do
+      it 'returns the sum of the frames scores' do
+        game = build(:game)
+        game.frames << build(:frame, score: 10)
+        game.frames << build(:frame, score: 10)
+        game.frames << build(:frame, score: 10)
+
+        expect(game.score).to eq 90
 
       end
     end

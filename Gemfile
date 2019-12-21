@@ -25,9 +25,10 @@ gem 'turbolinks', '~> 5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
-    gem 'factory_bot_rails' # Testing with real objects
-    gem 'faker' # Creates fake data
-    gem 'rspec-rails' # Testing framework
+  gem 'annotate' # Add comments summarizing the current schema to models
+  gem 'factory_bot_rails' # Testing with real objects
+  gem 'faker' # Creates fake data
+  gem 'rspec-rails' # Testing framework
 
 end
 
