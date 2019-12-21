@@ -29,3 +29,6 @@
 # Project exclude paths
 /log/
 /tmp/
+
+# RubyMine Preferences
+/.idea
