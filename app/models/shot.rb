@@ -1,7 +1,7 @@
 class Shot < ApplicationRecord
   belongs_to :frame
 
-  validates :pins_knocked_down,
+  validates :score,
             numericality: {
               only_integer: true,
               less_than_or_equal_to: 10,
