@@ -19,7 +19,7 @@ FactoryBot.define do
 
     factory :open_frame_with_1_shot do
       after(:create) do |frame, evaluator|
-        create(:shot, frame: frame, score: rand(9))
+        frame.shots << create(:shot, frame: frame, score: rand(9))
       end
 
     end
@@ -27,15 +27,15 @@ FactoryBot.define do
     factory :open_frame_with_2_shots do
       after(:create) do |frame, evaluator|
         score1 = rand(9)
-        create(:shot, frame: frame, score: score1)
-        create(:shot, frame: frame, score: rand(score1..9) - score1)
+        frame.shots << create(:shot, frame: frame, score: score1)
+        frame.shots << create(:shot, frame: frame, score: rand(score1..9) - score1)
       end
 
     end
 
     factory :frame_with_strike do
       after(:create) do |frame, evaluator|
-        create(:shot, frame: frame, score: 10)
+        frame.shots << create(:shot, frame: frame, score: 10)
       end
 
     end
@@ -43,8 +43,8 @@ FactoryBot.define do
     factory :frame_with_spare do
       after(:create) do |frame, evaluator|
         score1 = rand(10)
-        create(:shot, frame: frame, score: score1)
-        create(:shot, frame: frame, score: 10 - score1)
+        frame.shots << create(:shot, frame: frame, score: score1)
+        frame.shots << create(:shot, frame: frame, score: 10 - score1)
       end
 
     end

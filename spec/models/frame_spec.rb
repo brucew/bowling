@@ -16,7 +16,6 @@ describe Frame do
         it 'returns true' do
           frame = create(:open_frame_with_2_shots)
 
-          frame.reload
           expect(frame.full?).to be true
         end
       end
@@ -25,7 +24,6 @@ describe Frame do
         it 'returns true' do
           frame = create(:frame_with_spare)
 
-          frame.reload
           expect(frame.full?).to be true
         end
       end
@@ -34,7 +32,6 @@ describe Frame do
         it 'returns false' do
           frame = create(:open_frame_with_1_shot)
 
-          frame.reload
           expect(frame.full?).to be false
         end
       end
@@ -43,7 +40,6 @@ describe Frame do
         it 'returns true' do
           frame = create(:frame_with_strike)
 
-          frame.reload
           expect(frame.full?).to be true
         end
       end
@@ -65,7 +61,6 @@ describe Frame do
         frame = create(:open_frame_with_2_shots)
         frame.number = 10
 
-        frame.reload
         expect(frame.full?).to be true
       end
     end
@@ -75,7 +70,6 @@ describe Frame do
         frame = create(:frame_with_spare)
         frame.update(number: 10)
 
-        frame.reload
         expect(frame.full?).to be false
       end
     end
@@ -85,7 +79,6 @@ describe Frame do
         frame = create(:open_frame_with_1_shot)
         frame.update(number: 10)
 
-        frame.reload
         expect(frame.full?).to be false
       end
     end
@@ -95,7 +88,6 @@ describe Frame do
         frame = create(:frame_with_strike)
         frame.update(number: 10)
 
-        frame.reload
         expect(frame.full?).to be false
       end
     end
@@ -105,7 +97,6 @@ describe Frame do
         frame = create(:frame_with_strike)
         frame.update(number: 10)
 
-        frame.reload
         expect(frame.full?).to be false
       end
     end
@@ -114,10 +105,8 @@ describe Frame do
       it 'returns false' do
         frame = create(:frame_with_strike)
         frame.update(number: 10)
-        frame.reload
         create(:shot, frame: frame, score: 10)
 
-        frame.reload
         expect(frame.full?).to be false
       end
     end
@@ -126,11 +115,9 @@ describe Frame do
       it 'returns true' do
         frame = create(:frame_with_strike)
         frame.update(number: 10)
-        frame.reload
         create(:shot, frame: frame, score: 10)
         create(:shot, frame: frame, score: 10)
 
-        frame.reload
         expect(frame.full?).to be true
       end
     end
