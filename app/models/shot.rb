@@ -37,6 +37,25 @@ class Shot < ApplicationRecord
     end
   end
 
+  def score_symbol
+    case
+    when strike?
+      'X'.freeze
+    when spare?
+      '\\'.freeze
+    else
+      score.to_s
+    end
+  end
+
+  def spare?
+    self == frame.shots.second && frame.shots_scores_sum == 10
+  end
+
+  def strike?
+    score == 10
+  end
+
   private
 
   def set_frame

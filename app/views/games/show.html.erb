@@ -4,7 +4,7 @@
   <% @game.frames.each do |frame| %>
     <div>
       <h3>Frame #<%= frame.number %>: <%= frame.score %>pts</h3>
-      <%= frame.shots.map(&:score).join(' | ') %>
+      <%= frame.shots.map(&:score_symbol).join(' | ') %>
 
     </div>
 
