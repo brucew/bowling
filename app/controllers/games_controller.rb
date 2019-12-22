@@ -11,6 +11,8 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create
+    @game.frames.create
+    @game.frames.first.shots.create(score: 0)
 
     redirect_to game_path(@game)
   end

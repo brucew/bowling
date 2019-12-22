@@ -1,18 +1,24 @@
 <h2>Current Score: <%= @game.score %></h2>
-<div>
-  <%= button_to '+New Shot', shots_path %>
-
-</div>
 
 <div>
   <% @game.frames.each do |frame| %>
     <div>
-      <h3><%= frame.score %></h3>
+      <h3><%= frame.number %>: <%= frame.score %></h3>
       <% frame.shots.each do |shot| %>
         <%= shot.score %>
-      <% end %>
 
+      <% end %>
     </div>
 
   <% end %>
+</div>
+
+<div>
+  <%= simple_form_for @game.frames.last.shots.new, html: {class: 'form-inline'} do |f| %>
+    <%= f.hidden_field :frame_id %>
+    <%= f.input :score %>
+
+    <%= f.submit %>
+  <% end %>
+
 </div>
