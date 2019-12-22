@@ -1,18 +1,29 @@
 <div id="frames" class="row">
   <% (1..10).each do |i| %>
-    <div class="col">
-      <h5><%= i %></h5>
+    <div class="border col">
+      <%= i %>
+
       <% if (frame = @game.frames[i - 1]) %>
-        <%= frame.shots.map(&:score_symbol).join(' | ') %>
-        <h4><%= frame.score %></h4>
+        <div class="row">
+          <% frame.shots.each do |shot| %>
+            <div class="text-center border px-2 col">
+              <%= shot.score_symbol %>
+
+            </div>
+          <% end %>
+
+        </div>
+
+        <h4 class="text-center"><%= frame.score %></h4>
+
       <% end %>
     </div>
   <% end %>
 
-  <div class="col">
-    <h5>Total</h5>
-    <br/>
-    <h4><%= @game.score %></h4>
+  <div class="border col">
+    Total
+    <div class="row"><br/></div>
+    <h4 class="text-center"><%= @game.score %></h4>
 
   </div>
 </div>
