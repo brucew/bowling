@@ -19,6 +19,7 @@ class Shot < ApplicationRecord
   has_one :game, through: :frame, inverse_of: :shots
 
   before_validation :set_number, on: :create
+  before_validation :set_frame, on: :create
 
   validates :score,
             numericality: {
@@ -29,6 +30,10 @@ class Shot < ApplicationRecord
             }
 
   private
+
+  def set_frame
+    self.frame = game.frames.create if frame.full?
+  end
 
   def set_number
     self.number = game.shots.count + 1

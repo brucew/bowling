@@ -28,6 +28,14 @@ class Frame < ApplicationRecord
             }
   validates :shots, length: {maximum: 3, message: 'is too large (maximum is 3 shots)'}
 
+  def full?
+    if number < 10
+      shots.count == 2 || strike?
+    else
+      shots.count == 3 || (shots.count == 2 && open?)
+    end
+  end
+
   def open?
     shots_scores_sum < 10
   end

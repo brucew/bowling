@@ -17,13 +17,18 @@ FactoryBot.define do
   factory :frame do
     game
 
-    factory :frame_with_shots do
-      transient do
-        shots_count { 2 }
+    factory :open_frame_with_1_shot do
+      after(:create) do |frame, evaluator|
+        create(:shot, frame: frame, score: rand(9))
       end
 
+    end
+
+    factory :open_frame_with_2_shots do
       after(:create) do |frame, evaluator|
-        create_list(:shot, evaluator.shots_count, frame: frame)
+        score1 = rand(9)
+        create(:shot, frame: frame, score: score1)
+        create(:shot, frame: frame, score: rand(score1..9) - score1)
       end
 
     end
@@ -40,15 +45,6 @@ FactoryBot.define do
         score1 = rand(10)
         create(:shot, frame: frame, score: score1)
         create(:shot, frame: frame, score: 10 - score1)
-      end
-
-    end
-
-    factory :open_frame do
-      after(:create) do |frame, evaluator|
-        score1 = rand(9)
-        create(:shot, frame: frame, score: score1)
-        create(:shot, frame: frame, score: rand(score1..9) - score1)
       end
 
     end

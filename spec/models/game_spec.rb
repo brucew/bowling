@@ -23,7 +23,7 @@ describe Game do
 
     context 'with 3 open frames' do
       it 'returns the sum of the shots scores' do
-        game = create(:game, frames: create_list(:open_frame, 3))
+        game = create(:game, frames: create_list(:open_frame_with_2_shots, 3))
 
         game.reload
         expected_score = Shot.where(frame: game.frames).sum(:score)
@@ -60,7 +60,9 @@ describe Game do
         game = create(:game)
         create_list(:frame_with_strike, 9, game: game)
         last_frame = create(:frame_with_strike, game: game)
-        create_list(:shot, 2, frame: last_frame, score: 10)
+        last_frame.reload
+        create(:shot, frame: last_frame, score: 10)
+        create(:shot, frame: last_frame, score: 10)
 
         game.reload
         expect(game.score).to eq 300
