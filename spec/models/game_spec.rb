@@ -14,33 +14,56 @@ describe Game do
   describe :score do
     context 'with no frames' do
       it 'returns 0' do
-        game = build(:game)
+        game = create(:game)
 
         expect(game.score).to eq 0
 
       end
     end
 
-    context 'with 3 frames, no strikes or spares' do
-      it 'returns the sum of the frames scores' do
-        game = build(:game)
-        game.frames << build(:frame, score: 0)
-        game.frames << build(:frame, score: 1)
-        game.frames << build(:frame, score: 9)
+    context 'with 3 open frames' do
+      it 'returns the sum of the shots scores' do
+        game = create(:game, frames: create_list(:open_frame, 3))
 
-        expect(game.score).to eq 10
+        game.reload
+        expected_score = Shot.where(frame: game.frames).sum(:score)
+        expect(game.score).to eq expected_score
 
       end
     end
 
     context 'with 3 frames, all strikes' do
-      it 'returns the sum of the frames scores' do
-        game = build(:game)
-        game.frames << build(:frame, score: 10)
-        game.frames << build(:frame, score: 10)
-        game.frames << build(:frame, score: 10)
+      it 'returns 60' do
+        game = create(:game)
+        create_list(:frame_with_strike, 3, game: game)
 
-        expect(game.score).to eq 90
+        game.reload
+        expect(game.score).to eq 60
+
+      end
+    end
+
+    context 'with 2 frames, a spare and then a strike' do
+      it 'returns 30' do
+        game = create(:game)
+        create(:frame_with_spare, game: game)
+        create(:frame_with_strike, game: game)
+
+        game.reload
+        expect(game.score).to eq 30
+
+      end
+    end
+
+    context 'with 10 frames, all strikes' do
+      it 'returns 300' do
+        game = create(:game)
+        create_list(:frame_with_strike, 9, game: game)
+        last_frame = create(:frame_with_strike, game: game)
+        create_list(:shot, 2, frame: last_frame, score: 10)
+
+        game.reload
+        expect(game.score).to eq 300
 
       end
     end
