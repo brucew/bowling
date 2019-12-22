@@ -13,8 +13,14 @@
 
 <body>
 
-<h1>Bowling</h1>
-<%= yield %>
+<div class="container">
+  <h1>Bowling</h1>
+  <%= link_to '< All Games', games_path %>
+  <p>
+    <%= yield %>
+  </p>
+
+</div>
 
 </body>
 </html>

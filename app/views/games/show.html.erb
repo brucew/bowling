@@ -1,24 +1,24 @@
-<h2>Current Score: <%= @game.score %></h2>
+<h2> <%= @game.complete? ? 'Final' : 'Current' %> Game Score: <%= @game.score %>pts</h2>
 
 <div>
   <% @game.frames.each do |frame| %>
     <div>
-      <h3><%= frame.number %>: <%= frame.score %></h3>
-      <% frame.shots.each do |shot| %>
-        <%= shot.score %>
+      <h3>Frame #<%= frame.number %>: <%= frame.score %>pts</h3>
+      <%= frame.shots.map(&:score).join(' | ') %>
 
-      <% end %>
     </div>
 
   <% end %>
 </div>
 
-<div>
-  <%= simple_form_for @game.frames.last.shots.new, html: {class: 'form-inline'} do |f| %>
-    <%= f.hidden_field :frame_id %>
-    <%= f.input :score %>
+<% unless @game.complete? %>
+  <div>
+    <%= simple_form_for @game.frames.last.shots.new, wrapper: :inline_form, html: {class: 'form-inline'} do |f| %>
+      <%= f.hidden_field :frame_id %>
+      <%= f.input :score, placeholder: 'Pins knocked down', autofocus: true %>
 
-    <%= f.submit %>
-  <% end %>
+      <%= f.submit %>
+    <% end %>
 
-</div>
+  </div>
+<% end %>

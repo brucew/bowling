@@ -13,6 +13,10 @@ class Game < ApplicationRecord
 
   validates :frames, length: {maximum: 10, message: 'is too large (maximum is 10 frames)'}
 
+  def complete?
+    frames.count == 10 and frames.last.full?
+  end
+
   def score
     frames.map(&:score).sum
   end

@@ -24,10 +24,18 @@ class Shot < ApplicationRecord
   validates :score,
             numericality: {
               only_integer: true,
-              less_than_or_equal_to: 10,
+              less_than_or_equal_to: :max_score,
               greater_than_or_equal_to: 0,
               message: 'must be a whole number between 0 and 10'
             }
+
+  def max_score
+    if frame.number < 10
+      10 - (frame.shots.first&.score || 0)
+    else
+      10
+    end
+  end
 
   private
 
