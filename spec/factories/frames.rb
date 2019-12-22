@@ -4,7 +4,6 @@
 #
 #  id         :bigint           not null, primary key
 #  number     :integer          not null
-#  score      :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  game_id    :bigint
