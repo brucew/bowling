@@ -42,7 +42,7 @@ class Shot < ApplicationRecord
     when strike?
       'X'.freeze
     when spare?
-      '\\'.freeze
+      '/'.freeze
     else
       score.to_s
     end
