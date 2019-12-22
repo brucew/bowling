@@ -24,6 +24,8 @@ gem 'turbolinks', '~> 5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'simple_form' # Simple form DSL with Bootstrap support
+
 group :development, :test do
   gem 'annotate' # Add comments summarizing the current schema to models
   gem 'factory_bot_rails' # Testing with real objects
