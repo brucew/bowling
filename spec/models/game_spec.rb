@@ -48,6 +48,28 @@ describe Game do
       end
     end
 
+    context 'with 2 frames, a strike and then a spare' do
+      it 'returns 30' do
+        game = create(:game)
+        game.frames << create(:frame_with_strike, game: game)
+        game.frames << create(:frame_with_spare, game: game)
+
+        expect(game.score).to eq 30
+      end
+    end
+
+    context 'with 2 frames, a spare and then a 2' do
+      it 'returns 14' do
+        game = create(:game)
+        game.frames << create(:frame_with_spare, game: game)
+        game.frames << create(:frame, game: game)
+        last_frame = game.frames.last
+        last_frame.shots << create(:shot, frame: last_frame, score: 2)
+
+        expect(game.score).to eq 14
+      end
+    end
+
     context 'with 10 frames, all strikes' do
       it 'returns 300' do
         game = create(:game)
@@ -56,6 +78,23 @@ describe Game do
         last_frame.shots << create_list(:shot, 2, frame: last_frame, score: 10)
 
         expect(game.score).to eq 300
+      end
+    end
+
+    context 'with 10 frames, all spares with non-spare shots scoring 3' do
+      it 'returns 133' do
+        game = create(:game)
+        last_frame = game.frames.last
+        10.times do
+          game.frames << create(:frame)
+          last_frame = game.frames.last
+          last_frame.shots << create(:shot, frame: last_frame, score: 3)
+          last_frame.shots << create(:shot, frame: last_frame, score: 7)
+
+        end
+        last_frame.shots << create(:shot, frame: last_frame, score: 3)
+
+        expect(game.score).to eq 130
       end
     end
 
