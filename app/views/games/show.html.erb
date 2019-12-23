@@ -29,12 +29,18 @@
 </div>
 
 <% unless @game.complete? %>
+  <br/>
   <div>
-    <%= simple_form_for @game.frames.last.shots.new, wrapper: :inline_form, html: {class: 'form-inline'} do |f| %>
+    <% new_shot = @game.frames.last.shots.new %>
+    <%= simple_form_for new_shot, wrapper: :inline_form, html: {class: 'form-inline'} do |f| %>
       <%= f.hidden_field :frame_id %>
-      <%= f.input :score, placeholder: 'Pins knocked down', autofocus: true %>
 
-      <%= f.submit %>
+      <% (0..(new_shot.max_score)).each do |score| %>
+        <%= f.submit value: score, data: {disable_with: false} %>
+      <% end %>
+
+      <label>&nbsp; Click the number of pins knocked down</label>
+
     <% end %>
 
   </div>

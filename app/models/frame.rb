@@ -30,14 +30,22 @@ class Frame < ApplicationRecord
 
   def full?
     if number < 10
-      shots.count == 2 || strike?
+      shots.count == 2 || got_strike?
     else
       shots.count == 3 || (shots.count == 2 && open?)
     end
   end
 
+  def got_spare?
+    shots.second&.spare? || false
+  end
+
+  def got_strike?
+    shots.first&.strike? || false
+  end
+
   def open?
-    shots_scores_sum < 10
+    !got_strike? && !got_spare?
   end
 
   def next_shot
@@ -50,9 +58,9 @@ class Frame < ApplicationRecord
 
   def score
     case
-    when spare?
+    when got_spare?
       bonus = next_shot&.score || 0
-    when strike?
+    when got_strike?
       bonus = (next_shot&.score || 0) + (shot_after_next&.score || 0)
     else
       bonus = 0
@@ -63,14 +71,6 @@ class Frame < ApplicationRecord
 
   def shots_scores_sum
     shots.map(&:score).sum
-  end
-
-  def spare?
-    !strike? && (shots_scores_sum == 10)
-  end
-
-  def strike?
-    shots&.first&.score == 10
   end
 
   private

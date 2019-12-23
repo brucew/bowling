@@ -30,7 +30,7 @@ class Shot < ApplicationRecord
             }
 
   def max_score
-    if frame.number < 10
+    if self == frame.shots.second && !frame.shots.first.strike?
       10 - (frame.shots.first&.score || 0)
     else
       10
@@ -49,7 +49,7 @@ class Shot < ApplicationRecord
   end
 
   def spare?
-    self == frame.shots.second && frame.shots_scores_sum == 10
+    self == frame.shots.second && (frame.shots.first.score + score) == 10
   end
 
   def strike?

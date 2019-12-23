@@ -41,7 +41,8 @@ describe Game do
     context 'with 2 frames, a spare and then a strike' do
       it 'returns 30' do
         game = create(:game)
-        game.frames << create_list(:frame_with_spare, 2, game: game)
+        game.frames << create(:frame_with_spare, game: game)
+        game.frames << create(:frame_with_strike, game: game)
 
         expect(game.score).to eq 30
       end
