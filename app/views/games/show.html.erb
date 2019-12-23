@@ -14,7 +14,7 @@
 
         </div>
 
-        <h4 class="text-center"><%= frame.score %></h4>
+        <h4 class="text-center"><%= frame.score unless frame.shots.size == 0 %></h4>
 
       <% end %>
     </div>
